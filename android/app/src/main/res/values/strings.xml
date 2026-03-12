@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Click to Call</string>
+    <string name="notification_title">Click to call</string>
+    <string name="notification_text">Tap to open the dialer for %1$s</string>
+    <string name="status_ready">Ready to receive click-to-call requests.</string>
+    <string name="status_permission_required">Notification permission is required to show incoming call prompts.</string>
+    <string name="status_opening_dialer">Opening dialer for %1$s</string>
+    <string name="request_notifications">Enable notifications</string>
+    <string name="fcm_token_label">Device pairing token</string>
+    <string name="fcm_token_loading">Loading FCM token…</string>
+    <string name="fcm_token_value">%1$s</string>
+    <string name="fcm_token_unavailable">FCM token unavailable. Add a valid google-services.json and rebuild.</string>
+    <string name="google_services_placeholder">Firebase requires an app-specific google-services.json file in app/. This repo intentionally omits it; add your own project file before running on device.</string>
+</resources>

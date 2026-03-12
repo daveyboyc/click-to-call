@@ -1,0 +1,24 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Build outputs
+/dist/
+/build/
+/.gradle/
+
+# Android
+android/.gradle/
+android/local.properties
+android/app/google-services.json
+*.apk
+*.aab
+
+# Firebase local state
+.firebase/
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+*.iml

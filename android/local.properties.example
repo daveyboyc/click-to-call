@@ -1,0 +1,3 @@
+# Copy to local.properties and update if your Android SDK is installed elsewhere.
+# Example default on macOS:
+sdk.dir=/Users/davidcrawford/Library/Android/sdk

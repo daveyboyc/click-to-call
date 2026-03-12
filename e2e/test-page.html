@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Click-to-Call Test Page</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        margin: 2rem auto;
+        max-width: 900px;
+        padding: 0 1rem 3rem;
+        line-height: 1.55;
+      }
+      code, pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      .card {
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        margin: 1rem 0;
+        background: #fafafa;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      .good { color: #0a6b0a; }
+      .warn { color: #8a5a00; }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        border-bottom: 1px solid #e6e6e6;
+        text-align: left;
+        padding: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Click-to-Call Smoke Test Page</h1>
+    <p>
+      Use this page while developing the Chrome extension. It contains realistic phone-number
+      formats that should be detected, normalized to E.164, and relayed with the leading
+      <code>+</code> preserved all the way to Android.
+    </p>
+
+    <div class="card">
+      <h2>Expected pipeline behavior</h2>
+      <ol>
+        <li>Extension detects a number in page text.</li>
+        <li>Number is normalized to E.164.</li>
+        <li>Relay request sends JSON with <span class="mono">"number": "+..."</span>.</li>
+        <li>Firebase forwards the same value in the FCM data payload.</li>
+        <li>Android app opens <span class="mono">tel:+...</span> without dropping the plus sign.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>Examples to test</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Label</th>
+            <th>Displayed text</th>
+            <th>Expected E.164</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>London HQ</td>
+            <td>+44 20 7946 0958</td>
+            <td class="mono">+442079460958</td>
+          </tr>
+          <tr>
+            <td>London local format</td>
+            <td>020 7946 0958</td>
+            <td class="mono">+442079460958</td>
+          </tr>
+          <tr>
+            <td>Barcelona mobile</td>
+            <td>+34 612 345 678</td>
+            <td class="mono">+34612345678</td>
+          </tr>
+          <tr>
+            <td>Dublin office</td>
+            <td>+353 1 234 5678</td>
+            <td class="mono">+35312345678</td>
+          </tr>
+          <tr>
+            <td>US support</td>
+            <td>+1 (415) 555-2671</td>
+            <td class="mono">+14155552671</td>
+          </tr>
+          <tr>
+            <td>Berlin desk</td>
+            <td>+49 30 901820</td>
+            <td class="mono">+4930901820</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Free-form text blocks</h2>
+      <p>
+        Call our UK sales team on +44 20 7946 0958 or the local office on 020 7946 0958.
+      </p>
+      <p>
+        Spain mobile contact: +34 612 345 678. Ireland reception: +353 1 234 5678.
+      </p>
+      <p>
+        If you are testing fallback parsing, try +1 (415) 555-2671 and +49 30 901820.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Manual checks</h2>
+      <ul>
+        <li>Verify the extension turns detected numbers into clickable UI affordances.</li>
+        <li>Verify local-format numbers normalize using the configured default country.</li>
+        <li class="good">Verify <code>+</code> remains present in logs, network payloads, push data, and the dialer URI.</li>
+        <li class="warn">If a number reaches Android without <code>+</code>, treat that as a release blocker.</li>
+      </ul>
+    </div>
+  </body>
+</html>

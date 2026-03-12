@@ -1,0 +1,8 @@
+{
+  "name": "click-to-call-e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test smoke.test.js pipeline-test.js"
+  }
+}
