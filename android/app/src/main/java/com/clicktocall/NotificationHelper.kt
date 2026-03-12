@@ -13,7 +13,6 @@ class NotificationHelper(private val context: Context) {
         const val CHANNEL_ID = "click_to_call_channel"
         private const val CHANNEL_NAME = "Click to Call"
         private const val CHANNEL_DESCRIPTION = "Notifications for incoming click-to-call requests"
-        private const val NOTIFICATION_ID = 1001
         const val EXTRA_NUMBER = "extra_number"
     }
 
@@ -34,11 +33,12 @@ class NotificationHelper(private val context: Context) {
 
     fun showIncomingCallNotification(number: String) {
         ensureNotificationChannel()
+        val notificationId = number.hashCode()
 
         val tapIntent = MainActivity.createLaunchIntent(context, number)
         val pendingIntent = PendingIntent.getActivity(
             context,
-            number.hashCode(),
+            notificationId,
             tapIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -53,6 +53,6 @@ class NotificationHelper(private val context: Context) {
             .setContentIntent(pendingIntent)
             .build()
 
-        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
+        NotificationManagerCompat.from(context).notify(notificationId, notification)
     }
 }

@@ -13,9 +13,15 @@ class CallFirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val number = message.data["number"]
-        if (number.isNullOrBlank()) {
+        val rawNumber = message.data["number"]
+        if (rawNumber.isNullOrBlank()) {
             Log.w("CallFirebaseService", "Ignoring FCM data message without number")
+            return
+        }
+
+        val number = DialerHelper.recoverIncomingNumber(rawNumber)
+        if (number == null) {
+            Log.w("CallFirebaseService", "Ignoring FCM data message with invalid number: $rawNumber")
             return
         }
 

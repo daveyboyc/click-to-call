@@ -17,7 +17,13 @@ export const SKIP_TAGS = new Set([
 ]);
 
 const SKIP_SELECTOR = Array.from(SKIP_TAGS).join(',');
-const PHONE_TEXT_PATTERN = /(?:\+\d[\d\s().-]{6,}|(?:(?:\(0\))?(?:0\d|\d))[\d\s().-]{6,}\d)/g;
+const PHONE_TEXT_PATTERN = /(?:\+\d[\d\s().+-]{6,}|(?:(?:\(0\))?(?:0\d|\d))[\d\s().+-]{6,}\d)/g;
+
+function isEmbeddedPhoneMatch(text, startsAt, endsAt) {
+  const previous = startsAt > 0 ? text[startsAt - 1] : '';
+  const next = endsAt < text.length ? text[endsAt] : '';
+  return /[\d+]/.test(previous) || /[\d+]/.test(next);
+}
 
 export function cleanCandidate(raw = '') {
   return raw.replace(/[\u00A0\u2007\u202F]/g, ' ').trim();
@@ -52,7 +58,11 @@ export function extractPhoneMatches(text, defaultCountry = DEFAULT_COUNTRY) {
   const seen = new Set();
 
   for (const result of findPhoneNumbersInText(text, defaultCountry)) {
-    const number = result.number?.number || normaliseNumber(result.rawString, defaultCountry);
+    if (isEmbeddedPhoneMatch(text, result.startsAt, result.endsAt)) {
+      continue;
+    }
+
+    const number = normaliseNumber(result.rawString, defaultCountry) || result.number?.number;
     if (!number) {
       continue;
     }
@@ -69,10 +79,6 @@ export function extractPhoneMatches(text, defaultCountry = DEFAULT_COUNTRY) {
       raw: result.rawString,
       number
     });
-  }
-
-  if (matches.length > 0) {
-    return matches;
   }
 
   for (const match of text.matchAll(PHONE_TEXT_PATTERN)) {
