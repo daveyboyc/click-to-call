@@ -11,8 +11,12 @@ npm-debug.log*
 android/.gradle/
 android/local.properties
 android/app/google-services.json
+android/app/build/
 *.apk
 *.aab
+
+# Local config
+config.txt
 
 # Firebase local state
 .firebase/

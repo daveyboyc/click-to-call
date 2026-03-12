@@ -15,12 +15,17 @@ function createLink(number, label) {
     event.stopPropagation();
 
     try {
-      await chrome.runtime.sendMessage({
+      const response = await chrome.runtime.sendMessage({
         type: 'CLICK_TO_CALL_SEND',
         number
       });
+
+      if (!response?.ok) {
+        throw new Error(response?.error || 'Unknown relay error');
+      }
     } catch (error) {
       console.error('click-to-call relay failed', error);
+      alert(`Click to Call failed: ${error.message}`);
     }
   });
 

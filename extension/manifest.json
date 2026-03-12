@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Click to Call",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Detect phone numbers on pages and relay them to an Android device.",
   "permissions": ["storage"],
   "host_permissions": ["<all_urls>"],
   "background": {
-    "service_worker": "dist/background/service-worker.js",
+    "service_worker": "background/service-worker.js",
     "type": "module"
   },
   "action": {
@@ -16,7 +16,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["dist/content/detector.js"],
+      "js": ["content/detector.js"],
       "css": ["content/content.css"],
       "run_at": "document_idle"
     }

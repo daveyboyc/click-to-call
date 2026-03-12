@@ -12,4 +12,5 @@
     <string name="fcm_token_value">%1$s</string>
     <string name="fcm_token_unavailable">FCM token unavailable. Add a valid google-services.json and rebuild.</string>
     <string name="google_services_placeholder">Firebase requires an app-specific google-services.json file in app/. This repo intentionally omits it; add your own project file before running on device.</string>
+    <string name="scan_qr_code">Scan QR Code from Browser</string>
 </resources>

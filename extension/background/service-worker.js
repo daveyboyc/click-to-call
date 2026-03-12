@@ -1,3 +1,5 @@
+const RELAY_URL = 'https://us-central1-click-to-call-76c61.cloudfunctions.net/relay';
+
 const STORAGE_KEYS = {
   relayUrl: 'relayUrl',
   deviceToken: 'deviceToken',
@@ -7,7 +9,7 @@ const STORAGE_KEYS = {
 
 async function getSettings() {
   const stored = await chrome.storage.sync.get({
-    [STORAGE_KEYS.relayUrl]: '',
+    [STORAGE_KEYS.relayUrl]: RELAY_URL,
     [STORAGE_KEYS.deviceToken]: '',
     [STORAGE_KEYS.enabled]: true,
     [STORAGE_KEYS.history]: []

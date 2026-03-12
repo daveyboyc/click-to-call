@@ -11,12 +11,8 @@
       <h1>Click to Call</h1>
       <form id="settings-form">
         <label>
-          <span>Relay URL</span>
-          <input id="relay-url" name="relayUrl" type="url" placeholder="https://.../relay" required />
-        </label>
-        <label>
           <span>Device token</span>
-          <input id="device-token" name="deviceToken" type="text" placeholder="paired-device-token" required />
+          <input id="device-token" name="deviceToken" type="text" placeholder="Enter token from app" />
         </label>
         <label class="checkbox-row">
           <input id="enabled" name="enabled" type="checkbox" />
@@ -25,6 +21,11 @@
         <button type="submit">Save</button>
       </form>
       <p id="status" class="status" aria-live="polite"></p>
+      <section id="qr-section" class="qr-section">
+        <h2>Scan with Phone App</h2>
+        <canvas id="qr-code"></canvas>
+        <p class="qr-hint">Show this QR code to your phone</p>
+      </section>
       <section>
         <h2>Recent sends</h2>
         <ul id="history" class="history"></ul>

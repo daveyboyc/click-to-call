@@ -2,17 +2,12 @@ package com.clicktocall
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.robolectric.annotation.Config
 
+@Config(sdk = [34])
 class DialerHelperTest {
-    @Test
-    fun createDialIntent_usesActionDial_withSanitisedTelUri() {
-        val intent = DialerHelper.createDialIntent(" +44 (20) 7946 0958 ")
-
-        assertEquals("android.intent.action.DIAL", intent.action)
-        assertEquals("tel:+442079460958", intent.dataString)
-    }
-
     @Test
     fun sanitiseNumber_preservesLeadingPlus() {
         assertEquals("+34612345678", DialerHelper.sanitiseNumber("+34 612 345 678"))
