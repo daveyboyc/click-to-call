@@ -6,6 +6,7 @@ const {
   resetRateLimitStore,
   RATE_LIMIT_MAX_REQUESTS,
   RATE_LIMIT_WINDOW_MS,
+  FCM_ANDROID_TTL_MS,
 } = require('../index');
 const { isValidE164, E164_REGEX } = require('../validators');
 
@@ -73,6 +74,10 @@ test('relay accepts valid request and sends FCM data message with + preserved', 
     token: 'device-token-123',
     data: {
       number: '+442079460958',
+    },
+    android: {
+      priority: 'high',
+      ttl: FCM_ANDROID_TTL_MS,
     },
   });
   assert.ok(!('notification' in sentMessages[0]));

@@ -7,6 +7,7 @@
     <string name="status_opening_dialer">Opening dialer for %1$s</string>
     <string name="request_notifications">Enable notifications</string>
     <string name="fcm_token_label">Device pairing token</string>
+    <string name="pairing_qr_label">Pairing QR code</string>
     <string name="fcm_token_loading">Loading FCM token…</string>
     <string name="fcm_token_value">%1$s</string>
     <string name="fcm_token_unavailable">FCM token unavailable. Add a valid google-services.json and rebuild.</string>

@@ -9,6 +9,7 @@ if (!admin.apps.length) {
 
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 60;
+const FCM_ANDROID_TTL_MS = 30 * 1000;
 const rateLimitStore = new Map();
 
 function setCorsHeaders(res) {
@@ -70,6 +71,10 @@ async function relayHandler(req, res, deps = {}) {
     data: {
       number,
     },
+    android: {
+      priority: 'high',
+      ttl: FCM_ANDROID_TTL_MS,
+    },
   };
 
   try {
@@ -99,4 +104,5 @@ module.exports = {
   resetRateLimitStore,
   RATE_LIMIT_MAX_REQUESTS,
   RATE_LIMIT_WINDOW_MS,
+  FCM_ANDROID_TTL_MS,
 };

@@ -4,18 +4,26 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
     private lateinit var statusText: TextView
     private lateinit var tokenText: TextView
+    private lateinit var qrImageView: ImageView
     private lateinit var requestPermissionButton: Button
 
     private val notificationPermissionLauncher = registerForActivityResult(
@@ -30,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         statusText = findViewById(R.id.statusText)
         tokenText = findViewById(R.id.tokenText)
+        qrImageView = findViewById(R.id.qrImageView)
         requestPermissionButton = findViewById(R.id.requestPermissionButton)
 
         NotificationHelper(this).ensureNotificationChannel()
@@ -60,10 +69,37 @@ class MainActivity : AppCompatActivity() {
         FirebaseMessaging.getInstance().token
             .addOnSuccessListener { token ->
                 tokenText.text = getString(R.string.fcm_token_value, token)
+                renderPairingQr(token)
             }
             .addOnFailureListener {
                 tokenText.text = getString(R.string.fcm_token_unavailable)
+                qrImageView.setImageDrawable(null)
             }
+    }
+
+    private fun renderPairingQr(token: String) {
+        val sizePx = (220 * resources.displayMetrics.density).toInt().coerceAtLeast(220)
+        val matrix = MultiFormatWriter().encode(
+            token,
+            BarcodeFormat.QR_CODE,
+            sizePx,
+            sizePx,
+            mapOf(
+                EncodeHintType.MARGIN to 1,
+                EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.M
+            )
+        )
+
+        val pixels = IntArray(sizePx * sizePx)
+        for (y in 0 until sizePx) {
+            for (x in 0 until sizePx) {
+                pixels[(y * sizePx) + x] = if (matrix[x, y]) Color.BLACK else Color.WHITE
+            }
+        }
+
+        val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
+        bitmap.setPixels(pixels, 0, sizePx, 0, 0, sizePx, sizePx)
+        qrImageView.setImageBitmap(bitmap)
     }
 
     private fun requestNotificationPermissionIfNeeded(forceRequest: Boolean) {
