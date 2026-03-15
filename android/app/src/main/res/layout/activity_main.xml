@@ -34,23 +34,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/statusText" />
 
-    <TextView
-        android:id="@+id/tokenLabel"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/scanQrButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/fcm_token_label"
-        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textSize="18sp"
+        android:text="@string/scan_qr_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/requestPermissionButton" />
 
     <TextView
+        android:id="@+id/tokenLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/fcm_token_label"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scanQrButton" />
+
+    <TextView
         android:id="@+id/tokenText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/fcm_token_loading"
+        android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tokenLabel" />
