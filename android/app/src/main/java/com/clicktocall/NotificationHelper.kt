@@ -1,19 +1,21 @@
 package com.clicktocall
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 
 class NotificationHelper(private val context: Context) {
     companion object {
         const val CHANNEL_ID = "click_to_call_channel"
         private const val CHANNEL_NAME = "Click to Call"
         private const val CHANNEL_DESCRIPTION = "Notifications for incoming click-to-call requests"
-        private const val NOTIFICATION_ID = 1001
         const val EXTRA_NUMBER = "extra_number"
     }
 
@@ -34,11 +36,12 @@ class NotificationHelper(private val context: Context) {
 
     fun showIncomingCallNotification(number: String) {
         ensureNotificationChannel()
+        val notificationId = number.hashCode()
 
         val tapIntent = MainActivity.createLaunchIntent(context, number)
         val pendingIntent = PendingIntent.getActivity(
             context,
-            number.hashCode(),
+            notificationId,
             tapIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -53,6 +56,16 @@ class NotificationHelper(private val context: Context) {
             .setContentIntent(pendingIntent)
             .build()
 
-        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                NotificationManagerCompat.from(context).notify(notificationId, notification)
+            }
+        } else {
+            NotificationManagerCompat.from(context).notify(notificationId, notification)
+        }
     }
 }
