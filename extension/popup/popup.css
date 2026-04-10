@@ -30,6 +30,11 @@ label {
   font-size: 14px;
 }
 
+label small {
+  color: #6b7280;
+  font-size: 12px;
+}
+
 input[type='url'],
 input[type='text'] {
   width: 100%;
@@ -54,10 +59,32 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background: #0945a0;
+}
+
 .status {
   min-height: 20px;
   margin: 12px 0;
   font-size: 13px;
+}
+
+.qr-section {
+  margin: 16px 0;
+  padding: 16px 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.qr-hint {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 12px;
+}
+
+#qr-canvas {
+  display: none;
+  margin: 0 auto 12px;
+  border-radius: 8px;
 }
 
 .history {

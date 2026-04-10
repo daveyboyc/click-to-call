@@ -10,6 +10,9 @@ npm-debug.log*
 # Android
 android/.gradle/
 android/local.properties
+android/keystore.properties
+android/*.jks
+android/*.keystore
 android/app/google-services.json
 android/app/build/
 *.apk

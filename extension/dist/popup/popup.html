@@ -16,7 +16,12 @@
         </label>
         <label>
           <span>Device token</span>
-          <input id="device-token" name="deviceToken" type="text" placeholder="paired-device-token" required />
+          <input id="device-token" name="deviceToken" type="text" placeholder="FCM token from Android app" required />
+        </label>
+        <label>
+          <span>Default country</span>
+          <input id="default-country" name="defaultCountry" type="text" maxlength="2" placeholder="GB" />
+          <small>2-letter code for local numbers (e.g. GB, US, IE)</small>
         </label>
         <label class="checkbox-row">
           <input id="enabled" name="enabled" type="checkbox" />
@@ -25,6 +30,14 @@
         <button type="submit">Save</button>
       </form>
       <p id="status" class="status" aria-live="polite"></p>
+
+      <section id="qr-section" class="qr-section">
+        <h2>Pair with Android</h2>
+        <p class="qr-hint">Open the Android app and tap <strong>Scan QR Code</strong>, then point the camera at this code.</p>
+        <canvas id="qr-canvas"></canvas>
+        <button type="button" id="generate-qr">Generate QR Code</button>
+      </section>
+
       <section>
         <h2>Recent sends</h2>
         <ul id="history" class="history"></ul>

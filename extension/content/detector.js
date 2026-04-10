@@ -3,6 +3,22 @@ import { DEFAULT_COUNTRY, extractPhoneMatches, shouldSkipNode } from '../utils/p
 const LINK_CLASS = 'click-to-call-link';
 const WRAPPER_ATTR = 'data-click-to-call-processed';
 
+let activeCountry = DEFAULT_COUNTRY;
+
+// Load user's default country from storage
+chrome.storage.sync.get({ defaultCountry: DEFAULT_COUNTRY }, (result) => {
+  if (result.defaultCountry) {
+    activeCountry = result.defaultCountry;
+  }
+});
+
+// Update if the setting changes while the page is open
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === 'sync' && changes.defaultCountry) {
+    activeCountry = changes.defaultCountry.newValue || DEFAULT_COUNTRY;
+  }
+});
+
 function createLink(number, label) {
   const link = document.createElement('button');
   link.type = 'button';
@@ -19,8 +35,8 @@ function createLink(number, label) {
         type: 'CLICK_TO_CALL_SEND',
         number
       });
-    } catch (error) {
-      console.error('click-to-call relay failed', error);
+    } catch (_error) {
+      // Relay failure is visible in the popup history (missing entry)
     }
   });
 
@@ -37,7 +53,7 @@ function replaceTextNode(textNode) {
     return;
   }
 
-  const matches = extractPhoneMatches(text, DEFAULT_COUNTRY);
+  const matches = extractPhoneMatches(text, activeCountry);
   if (matches.length === 0) {
     return;
   }
